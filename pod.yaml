@@ -1,0 +1,25 @@
+# Use podman play kube pod.yaml to host
+# the current directory locally on port 8080
+apiVersion: v1
+kind: Pod
+metadata:
+  name: server
+  labels:
+    name: server
+spec:
+  containers:
+    - name: server
+      image: nginxinc/nginx-unprivileged
+      resources:
+        limits: {}
+      ports:
+        - containerPort: 8080
+          hostPort: 8080
+      volumeMounts:
+        - mountPath: /usr/share/nginx/html
+          name: workspace
+  volumes:
+    - name: workspace
+      hostPath:
+        path: ./
+        type: Directory
